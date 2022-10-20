@@ -66,26 +66,12 @@ def install_packages(packages_install):
         file2.close()
 
 
-    print(mirrors_pool["pypi.tuna.tsinghua.edu.cn"])
-    print(mirrors_pool["pypi.douban.com"])
-    print(mirrors_pool["mirrors.aliyun.com"])
-    # print(list(mirrors_pool.keys))
-
-
     # if
     #     os.system('pip install -i ' + packages_install + mirrors_pool["pypi.tuna.tsinghua.edu.cn"] + ' --trusted-host ' )
     # elif
     #     os.system('pip install -i ' + packages_install + mirrors_pool["link1"] + ' --trusted-host ' )
     # elif
     #     os.system('pip install -i ' + packages_install + mirrors_pool["link1"] + ' --trusted-host ' )
-
-    # for install_command in mirrors_pool.keys:
-    #     install_command = os.system('pip install -i ' + packages_install +  + ' --trusted-host ' + )
-
-
-    # response = requests.get('')
-    # download_time = requests.get('content-length')
-    # for i in
 
 
 
