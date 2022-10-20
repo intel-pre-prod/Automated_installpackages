@@ -1,4 +1,3 @@
-# 导库
 import os
 import time
 import datetime
@@ -6,43 +5,37 @@ import sys
 import re
 import json
 import requests
-# from alive_progress import alive_bar
 
 
-# 做主函数
 def main():
-    packages_install = input('请输入您想要安装的Python包: ')
-    print('您想要安装的Python包是: ', packages_install)
+    start = time.perf_counter()  # Start counter time
+    packages_install = input('Plz enter the Python package you want to install: ')
+    print('The Python package you want to install is: ', packages_install)
     check_packages(packages_install)
     install_packages(packages_install)
+    end = time.perf_counter()  # End counter time
+    runtime = end - start  # Running time =  End counter time - Start counter time
+    counter_process(runtime)
 
 
-# 做检查包函数
 def check_packages(packages_install):
-    print("开始检查是否有安装该Python包")
-    command_result = os.popen("pip list | findstr " + packages_install)
-    # 测试变量类型
-    # 这样子指令的结果没法判断
-    if command_result == packages_install:
-        print("在该台主机上已经安装了" + packages_install)
+    print("Start to check whether the Python package is installed")
+    command_result = os.system("pip list" + " | findstr " + packages_install)
+    if command_result == packages_install: # Not full completed function
+        print(packages_install + " has been installed on this host")
         sys.exit()
     else:
-        print("开始启动安装程序" + "安装您想要的" + packages_install)
+        print("Start to setup " + packages_install + " you want to installed in this laptop")
         print("------------------------------------------------------------------------------------------------------------------------------")
-    #print(type(command_result))
     username = os.getlogin()
     with open("packages_log.txt", "w") as file:
         current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                       #datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        file.write(username + " 于北京时间 " + current_time + " 安装了 " + packages_install)
+        file.write(username + " downloaded the " + packages_install + " at Current time: " + current_time)
 
 
-# 做安装包函数
 def install_packages(packages_install):
-    # proxy_pool =
-    # domain_pool = []
-    # 定义镜像源 地址池子 Python数据类型:dictionary
-    # 策略: 切换镜像源地址
+    # mirrors_pool Python data type:dictionary
+    # You can change the Proxypool key and value by your own decision
     # mirrors_pool = {
     #     'tsinghua': {
     #         'domain': 'pypi.tuna.tsinghua.edu.cn',
@@ -62,33 +55,52 @@ def install_packages(packages_install):
     #     # }
     # }
 
-    # 备用字典2 根据使用需求进行切换
-    mirrors_pool = {
-        "pypi.tuna.tsinghua.edu.cn":{"https://pypi.tuna.tsinghua.edu.cn/simple"},"pypi.douban.com":{"http://pypi.douban.com/simple/"},"mirrors.aliyun.com":{"http://mirrors.aliyun.com/pypi/simple/"}
-    }
-
-    # convert_result = dict*(mirrors_pool)
-    # mirrors_result = json.dumps(convert_result)
-    # with open("mirrors_links.txt","w") as file2:
-    #     file2.write(mirrors_result)
-    #     file2.close()
-    # 做一个条件判断的语句出来,如果读取字典当中的url_link访问失败,return error，切换成另外一个url_link
-    #print(mirrors_pool)
-
-    for value_result in mirrors_pool.values():
-        print(value_result)
-    for key_result in mirrors_pool.keys():
-        print(key_result)
+    # backup dictionary: according to the requirement to change
+    mirrors_pool = {"pypi.tuna.tsinghua.edu.cn": "https://pypi.tuna.tsinghua.edu.cn/simple",
+                    "pypi.douban.com": "http://pypi.douban.com/simple/",
+                    "mirrors.aliyun.com": "http://mirrors.aliyun.com/pypi/simple/"}
 
 
-    final_result = []
-        for
-    install_command = os.system('pip install -i ' + packages_install +  + ' --trusted-host ' + )
-    #做一个安装进度条的函数出来
-    # 伪代码
-    response = requests.get('')
-    download_time = requests.get('content-length')
-    for i in
+    with open("mirrors_links.txt","w") as file2:
+        file2.write(str(mirrors_pool))
+        file2.close()
+
+
+    print(mirrors_pool["pypi.tuna.tsinghua.edu.cn"])
+    print(mirrors_pool["pypi.douban.com"])
+    print(mirrors_pool["mirrors.aliyun.com"])
+    # print(list(mirrors_pool.keys))
+
+
+    # if
+    #     os.system('pip install -i ' + packages_install + mirrors_pool["pypi.tuna.tsinghua.edu.cn"] + ' --trusted-host ' )
+    # elif
+    #     os.system('pip install -i ' + packages_install + mirrors_pool["link1"] + ' --trusted-host ' )
+    # elif
+    #     os.system('pip install -i ' + packages_install + mirrors_pool["link1"] + ' --trusted-host ' )
+
+    # for install_command in mirrors_pool.keys:
+    #     install_command = os.system('pip install -i ' + packages_install +  + ' --trusted-host ' + )
+
+
+    # response = requests.get('')
+    # download_time = requests.get('content-length')
+    # for i in
+
+
+
+def counter_process(runtime):
+    scale = 100
+    print("Start downloading the python packages".center(scale // 2, "-"))
+    for i in range(scale + 1):
+        conuter1 = ">" * i
+        counter2 = "-" * (scale - i)
+        counter3 = (i / scale) * 100
+        print("\r{:^3.0f}%[{}>{}]{:.2f}s".format(counter3, conuter1, counter2, runtime), end="")
+        time.sleep(0.1)
+
+    print("\n" + "All the job is done,lucky so much".center(scale // 2, "-"))
+
 
 main()
 
